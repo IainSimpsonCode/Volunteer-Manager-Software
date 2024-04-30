@@ -20,4 +20,7 @@ class AppTheme {
   static double sideBarWidth = 1 - (2 * mainBoxWidth);
   static double sideBarSpacersWidth = 0.03;
   static double sideBarScrollerWidth = sideBarWidth - (2 * sideBarSpacersWidth);
+
+  // Page Layout
+  static bool isMainBoxExtended = true;
 }
