@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:volunteer_manager/Views/fullScreen.dart';
+import 'package:volunteer_manager/Views/mediumScreen.dart';
 import "package:volunteer_manager/themes/theme.dart";
 
 class Content extends StatefulWidget {
@@ -9,22 +11,24 @@ class Content extends StatefulWidget {
 }
 
 class _ContentState extends State<Content> {
+  
+  bool fullScreen = false;
+  
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: Container(
-      color: secondaryColor,
-      child: Column(children: [
-        Text("This is a big header", style: h1),
-        Text("This is a slightly smaller header", style: h2),
-        Text("This is a small header", style: h3),
-        Text("This is some standard text.\nLorem ipsum whatever", style: paragraph),
-      ]),
-    ));
+
+    if (MediaQuery.sizeOf(context).width >= mediumScreenSize) {
+      fullScreen = true;
+      return const FullScreenContent();
+    }
+    else {
+      fullScreen = false;
+      return const MediumScreenContent();
+    }
   }
 }

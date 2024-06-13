@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:volunteer_manager/Data/globals.dart';
+import 'package:volunteer_manager/Data/volunteer.dart';
 import 'package:volunteer_manager/Page%20Sections/content.dart';
 import 'package:volunteer_manager/Page%20Sections/footer.dart';
 import 'package:volunteer_manager/Page%20Sections/header.dart';
 import 'package:volunteer_manager/Page%20Sections/sidebar.dart';
 
 void main() {
+  allVolunteers = generateVolunteers();
+  
+  // runApp(
+  //   ChangeNotifierProvider(
+  //     create: (context) => OpenTabsModel(),
+  //     child: const MainApp(),
+  //   ),
+  // );
   runApp(const MainApp());
 }
 
@@ -23,7 +34,7 @@ class MainApp extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
             Header(),
-            Content(),
+            Expanded( child: Content()),
             Footer(),
           ],), ),
         ],)
