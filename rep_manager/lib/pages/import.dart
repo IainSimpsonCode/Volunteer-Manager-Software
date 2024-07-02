@@ -4,6 +4,8 @@ import 'package:csv/csv.dart';
 import 'dart:io';
 import 'dart:convert';
 
+List<Student> studentData = [];
+
 class StudentList extends StatefulWidget {
   @override
   _StudentListState createState() => _StudentListState();
@@ -107,6 +109,11 @@ Future<List<Student>> loadCsvData() async {
       .toList();
 
   // Skip the header row and map the remaining rows to Student objects
+  studentData = csvData
+      .skip(1)
+      .map((row) => Student.fromCsv(row.cast<String>()))
+      .toList();
+  
   return csvData
       .skip(1)
       .map((row) => Student.fromCsv(row.cast<String>()))

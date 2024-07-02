@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rep_manager/pages/import.dart';
 import "package:rep_manager/themes/theme.dart";
 
 const sampleData = [
@@ -762,13 +763,13 @@ class _repPageState extends State<repPage> {
     Container focusBox = Container(height: 0);
 
     List<Widget> staticInformation = [
-      Text("G21002528", style: paragraph,),
-      Text("isimpson3@uclan.ac.uk", style: paragraph,),
-      Text("FT", style: paragraph,),
-      Text("Preston", style: paragraph,),
-      Text("UG", style: paragraph,),
-      Text("1/7/24", style: paragraph,),
-      Text("1/7/25", style: paragraph,),
+      Text(studentData[widget.focusedIndex].studentNumber, style: paragraph,),
+      Text(studentData[widget.focusedIndex].email, style: paragraph,),
+      Text(studentData[widget.focusedIndex].mode, style: paragraph,),
+      Text(studentData[widget.focusedIndex].campus, style: paragraph,),
+      Text(studentData[widget.focusedIndex].level, style: paragraph,),
+      Text(studentData[widget.focusedIndex].startDate, style: paragraph,),
+      Text(studentData[widget.focusedIndex].endDate, style: paragraph,),
     ];
     List<Widget> editableInformation = [
       TextField(
@@ -842,8 +843,8 @@ class _repPageState extends State<repPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //const SizedBox(height: 35),
-                  Text(sampleData[widget.focusedIndex][0], style: h3,),
-                  Text(sampleData[widget.focusedIndex][1], style: paragraph,),
+                  Text('${studentData[widget.focusedIndex].firstName} ${studentData[widget.focusedIndex].lastName}', style: h3,),
+                  Text(studentData[widget.focusedIndex].course, style: paragraph,),
                   const SizedBox(height: 20),
                   Row(
                     children: [
@@ -971,7 +972,7 @@ class _repPageState extends State<repPage> {
                 onTap: () {
                   if (widget.selectedIndexes.isEmpty) {
                     setState(() {
-                      for (int i = 0; i < sampleData.length; i++) {
+                      for (int i = 0; i < studentData.length; i++) {
                         widget.selectedIndexes.add(i);
                       }
                     });
@@ -993,7 +994,7 @@ class _repPageState extends State<repPage> {
           width: MediaQuery.sizeOf(context).width - 400,
           height: MediaQuery.sizeOf(context).height - (100 + focusBoxHeight),
           child: ListView.builder(
-            itemCount: sampleData.length,
+            itemCount: studentData.length,
             itemBuilder: (BuildContext context, int index) {
 
               Icon circleIcon = const Icon(Icons.circle_outlined, color: textColor,);
@@ -1014,12 +1015,12 @@ class _repPageState extends State<repPage> {
                     }
                   },
                 ),
-                title: Text(sampleData[index][0], style: paragraph, maxLines: 2, softWrap: false,),
+                title: Text('${studentData[index].firstName} ${studentData[index].lastName}', style: paragraph, maxLines: 2, softWrap: false,),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      sampleData[index][1],
+                      studentData[index].course,
                       style: paragraph,
                       maxLines: 2,
                       softWrap: true, 
@@ -1029,7 +1030,7 @@ class _repPageState extends State<repPage> {
                       width: 40,
                       height: 20,
                       child: Text(
-                        sampleData[index][2],
+                        studentData[index].year,
                         style: paragraph,
                       ),
                     )

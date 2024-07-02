@@ -5,7 +5,9 @@ import 'package:rep_manager/pages/repsPage.dart';
 import 'package:rep_manager/themes/theme.dart';
 //import 'package:url_launcher/url_launcher.dart';
 
-void main() {
+void main() async {
+  await loadCsvData();
+  
   runApp(MainApp());
 }
 
