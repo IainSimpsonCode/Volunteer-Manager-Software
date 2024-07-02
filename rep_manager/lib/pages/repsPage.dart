@@ -644,13 +644,48 @@ const sampleData = [
   ["Liam Middleton", "BSc Web Development", "3rd"],
 ];
 
+const groups = [
+  [
+    ["Course Reps"],
+    [
+      "Arts and Media",
+      "Business",
+      "Engineering and Computing",
+      "Pharmacy and Biomedical Sciences",
+      "Veterinary Medicine",
+      "Law and Policing",
+      "Psychology, Humanities and Languages",
+      "Nursing and Midwifery",
+      "Medicine and Dentistry",
+      "Health, Social Work and Sport"
+    ],
+  ],
+  [
+    ["Senior Representatives"],
+    [
+      "School Presidents",
+      "Satellite Campus Reps",
+      "School Council",
+    ],
+  ],
+  [
+    ["Libaeration Reps"],
+    ["Liberation Reps"],
+  ]
+];
+
+//ignore: must_be_immutable
 class repPage extends StatefulWidget {
   repPage({Key? key}) : super(key: key);
 
   List<int> selectedIndexes = [];
+  List<String> filters = [];
   
   bool focusSelected = false;
   int focusedIndex = 0;
+  bool focusEdit = false;
+
+  bool? checkedValue = false;
 
   @override
   State<repPage> createState() => _repPageState();
@@ -672,7 +707,43 @@ class _repPageState extends State<repPage> {
     Icon downloadRepInformationIcon = const Icon(Icons.download);
     Icon deleteRepIcon = const Icon(Icons.delete);
 
-    bool? checkedValue = false;
+    List<Widget> filterCheckboxes = [const SizedBox(height: 10,)];
+    for (List<List<String>> group in groups) {
+      filterCheckboxes.add(Row(
+        children: [
+          const SizedBox(width: 20,),
+          Text(group[0][0], style: h3,),
+        ],
+      ));
+      for (String filterItem in group[1]) {
+        bool startValue = false;
+        if (widget.filters.contains(filterItem)) {
+          startValue = true;
+        }
+
+        filterCheckboxes.add(CheckboxListTile(
+          dense: true,
+          title: Text(
+            filterItem,
+            style: paragraph,
+          ),
+          value: startValue,
+          onChanged: (newValue) {
+            if (widget.filters.contains(filterItem)) {
+              setState(() {
+                widget.filters.remove(filterItem);
+              });
+            } else {
+              setState(() {
+                widget.filters.add(filterItem);
+              });
+            }
+          },
+          controlAffinity:
+              ListTileControlAffinity.leading, //  <-- leading Checkbox
+        ));               
+      }
+    }
 
     if (widget.selectedIndexes.length > 1) {
       editRepDetailsIcon = const Icon(
@@ -689,6 +760,52 @@ class _repPageState extends State<repPage> {
 
     int focusBoxHeight = 0;
     Container focusBox = Container(height: 0);
+
+    List<Widget> staticInformation = [
+      Text("G21002528", style: paragraph,),
+      Text("isimpson3@uclan.ac.uk", style: paragraph,),
+      Text("FT", style: paragraph,),
+      Text("Preston", style: paragraph,),
+      Text("UG", style: paragraph,),
+      Text("1/7/24", style: paragraph,),
+      Text("1/7/25", style: paragraph,),
+    ];
+    List<Widget> editableInformation = [
+      TextField(
+        controller: TextEditingController()..text = 'G21002528',
+        onChanged: (text) => {},
+      ),
+      TextField(
+        controller: TextEditingController()..text = 'isimpson3@uclan.ac.uk',
+        onChanged: (text) => {},
+      ),
+      TextField(
+        controller: TextEditingController()..text = 'FT',
+        onChanged: (text) => {},
+      ),
+      TextField(
+        controller: TextEditingController()..text = 'Preston',
+        onChanged: (text) => {},
+      ),
+      TextField(
+        controller: TextEditingController()..text = 'UG',
+        onChanged: (text) => {},
+      ),
+      TextField(
+        controller: TextEditingController()..text = '1/7/24',
+        onChanged: (text) => {},
+      ),
+      TextField(
+        controller: TextEditingController()..text = '1/7/25',
+        onChanged: (text) => {},
+      ),
+    ];
+
+    List<Widget> focusBoxInformation = staticInformation;
+    if (widget.focusEdit) {
+      focusBoxInformation = editableInformation;
+    }
+
     if (widget.focusSelected) {
       focusBoxHeight = 350;
       focusBox = Container(
@@ -745,15 +862,7 @@ class _repPageState extends State<repPage> {
                       const SizedBox(width: 10,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("G21002528", style: paragraph,),
-                          Text("isimpson3@uclan.ac.uk", style: paragraph,),
-                          Text("FT", style: paragraph,),
-                          Text("Preston", style: paragraph,),
-                          Text("UG", style: paragraph,),
-                          Text("1/7/24", style: paragraph,),
-                          Text("1/7/25", style: paragraph,),
-                        ],
+                        children: focusBoxInformation
                       ),
                     ],
                   ),
@@ -803,26 +912,12 @@ class _repPageState extends State<repPage> {
       //Side Bar
       Container(
         width: 400,
-        height: MediaQuery.sizeOf(context).height - 75,
+        height: MediaQuery.sizeOf(context).height - 50,
         decoration: BoxDecoration(
           color: secondaryColor,
           border: Border.all(color: Colors.black, width: 2),
         ),
-        child: ListView(
-          children: [
-            CheckboxListTile(
-                title: Text("title text"),
-                value: checkedValue,
-                onChanged: (newValue) {
-                  setState(() {
-                    checkedValue = newValue;
-                  });
-                },
-                controlAffinity:
-                    ListTileControlAffinity.leading, //  <-- leading Checkbox
-              )
-          ],
-        ),
+        child: ListView(children: filterCheckboxes)
       ),
 
       //Content
@@ -849,7 +944,9 @@ class _repPageState extends State<repPage> {
                       // Do nothing if more than 1 person is selected
                     }
                     else {
-                      // All code goes here
+                      setState(() {
+                        widget.focusEdit = !widget.focusEdit;
+                      });
                     }
                   },
                 ),
@@ -894,12 +991,12 @@ class _repPageState extends State<repPage> {
         ),
         Container(
           width: MediaQuery.sizeOf(context).width - 400,
-          height: MediaQuery.sizeOf(context).height - (125 + focusBoxHeight),
+          height: MediaQuery.sizeOf(context).height - (100 + focusBoxHeight),
           child: ListView.builder(
             itemCount: sampleData.length,
             itemBuilder: (BuildContext context, int index) {
 
-              Icon circleIcon = Icon(Icons.circle_outlined, color: textColor,);
+              Icon circleIcon = const Icon(Icons.circle_outlined, color: textColor,);
               if (widget.selectedIndexes.contains(index)) { circleIcon = Icon(Icons.circle, color: primaryColor,); }
 
               return ListTile(
@@ -917,13 +1014,15 @@ class _repPageState extends State<repPage> {
                     }
                   },
                 ),
-                title: Text(sampleData[index][0], style: paragraph,),
+                title: Text(sampleData[index][0], style: paragraph, maxLines: 2, softWrap: false,),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       sampleData[index][1],
-                      style: paragraph, 
+                      style: paragraph,
+                      maxLines: 2,
+                      softWrap: true, 
                     ),
                     const SizedBox(width: 20),
                     SizedBox(

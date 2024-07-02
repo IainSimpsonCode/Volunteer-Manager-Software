@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rep_manager/pages/homePage.dart';
 import 'package:rep_manager/pages/repsPage.dart';
 import 'package:rep_manager/themes/theme.dart';
+//import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(MainApp());
@@ -9,8 +10,6 @@ void main() {
 
 class MainApp extends StatefulWidget {
   MainApp({Key? key}) : super(key: key);
-
-  //Widget currentDisplay = homePage();
 
   @override
   State<MainApp> createState() => _MainAppState();
@@ -27,20 +26,24 @@ class _MainAppState extends State<MainApp>
 
   @override
   Widget build(BuildContext context) {
+
+    //final Uri _url = Uri.parse('file:///C:/');
+    //launchUrl(_url);
+
     return MaterialApp(
       home: Scaffold(
         body: Column( children: [
           //Top Bar
           Container(
             width: MediaQuery.sizeOf(context).width,
-            height: 75,
+            height: 50,
             color: primaryColor,
             child: Row(
               children: [
                 const SizedBox(width: 25),
                 IconButton(
                   icon: const Icon(Icons.home),
-                  iconSize: 50,
+                  iconSize: 35,
                   onPressed: () {
                     setState(() {
                       currentDisplay = const homePage();
@@ -50,7 +53,7 @@ class _MainAppState extends State<MainApp>
                 const SizedBox(width: 25),
                 IconButton(
                   icon: const Icon(Icons.groups),
-                  iconSize: 50,
+                  iconSize: 35,
                   onPressed: () {
                     setState(() {
                       currentDisplay = repPage();
@@ -60,7 +63,7 @@ class _MainAppState extends State<MainApp>
                 const SizedBox(width: 25),
                 IconButton(
                     icon: const Icon(Icons.group_add),
-                    iconSize: 50,
+                    iconSize: 35,
                     onPressed: () {
 
                     },
