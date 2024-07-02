@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rep_manager/pages/homePage.dart';
+import 'package:rep_manager/pages/import.dart';
 import 'package:rep_manager/pages/repsPage.dart';
 import 'package:rep_manager/themes/theme.dart';
 //import 'package:url_launcher/url_launcher.dart';
@@ -65,7 +66,9 @@ class _MainAppState extends State<MainApp>
                     icon: const Icon(Icons.group_add),
                     iconSize: 35,
                     onPressed: () {
-
+                      setState(() {
+                        currentDisplay = StudentList();
+                      });
                     },
                   ),
               ],
@@ -73,7 +76,11 @@ class _MainAppState extends State<MainApp>
           ),
 
           //Content
-          currentDisplay,
+          Container(
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height - 50,
+            child: currentDisplay,
+          ),
         ], ),
       ),
     );

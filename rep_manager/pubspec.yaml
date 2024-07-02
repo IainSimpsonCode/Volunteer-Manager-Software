@@ -7,9 +7,13 @@ environment:
   sdk: '>=3.2.6 <4.0.0'
 
 dependencies:
+  convert: ^3.1.1
+  converter: ^0.4.0
+  csv: ^6.0.0
   flutter:
     sdk: flutter
   google_fonts: 6.1.0
+  io: ^1.0.4
   url_launcher: ^6.3.0
 
 dev_dependencies:
