@@ -6,7 +6,8 @@ import 'package:rep_manager/themes/theme.dart';
 //import 'package:url_launcher/url_launcher.dart';
 
 void main() async {
-  await loadCsvData();
+  studentData = await loadCsvData(r"C:\Users\Iain Simpson\Desktop\UCLan SU\Admin Role\Volunteer Manager Software Sample Data");
+  //findCsvFiles(r"C:\Users\Iain Simpson\Desktop\UCLan SU\Admin Role\Volunteer Manager Software Sample Data");
   
   runApp(MainApp());
 }
