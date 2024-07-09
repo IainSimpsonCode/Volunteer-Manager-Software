@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:csv/csv.dart';
 import 'dart:io';
 import 'dart:convert';
@@ -14,12 +13,9 @@ class StudentList extends StatefulWidget {
 }
 
 class _StudentListState extends State<StudentList> {
-  late Future<List<Student>> students;
-
   @override
   void initState() {
     super.initState();
-    students = loadCsvData(r"C:\Users\Iain Simpson\Desktop\UCLan SU\Admin Role\Volunteer Manager Software Sample Data");
   }
 
   @override
@@ -28,27 +24,16 @@ class _StudentListState extends State<StudentList> {
       appBar: AppBar(
         title: Text('Student List'),
       ),
-      body: FutureBuilder<List<Student>>(
-        future: students,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
+      body: ListView.builder(
+              itemCount: studentData.length,
               itemBuilder: (context, index) {
-                final student = snapshot.data![index];
+                final student = studentData[index];
                 return ListTile(
                   title: Text('${student.firstName} ${student.lastName}'),
                   subtitle: Text(student.course),
                 );
               },
-            );
-          }
-        },
-      ),
+            )
     );
   }
 }
@@ -147,6 +132,7 @@ Future<List<Student>> loadCsvData(String folderPath) async {
     csvData.addAll(studentList);
   }
 
+  groups.clear();
   groups.add(
     [
       ["All Groups"],
