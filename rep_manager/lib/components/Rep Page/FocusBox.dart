@@ -3,6 +3,14 @@ import 'package:rep_manager/pages/import.dart';
 import 'package:rep_manager/pages/repsPage.dart';
 import "package:rep_manager/themes/theme.dart";
 import "package:provider/provider.dart";
+import "package:url_launcher/url_launcher.dart";
+
+String encodeQueryParameters(Map<String, String> params) {
+  return params.entries
+      .map((e) =>
+          '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value).replaceAll('+', '%20')}')
+      .join('&');
+}
 
 class FocusBox extends StatelessWidget {
   const FocusBox({Key? key, required this.focusRepIndex, required this.focusBoxHeight}) : super(key: key);
@@ -186,7 +194,18 @@ class FocusBox extends StatelessWidget {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          final Uri emailLaunchUri = Uri(
+                            scheme: 'mailto',
+                            path: Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].email,
+                            query: encodeQueryParameters(<String, String>{
+                            }),
+                          );
+
+                          if (await canLaunchUrl(emailLaunchUri)) {
+                            await launchUrl(emailLaunchUri);
+                          }
+                        },
                         child: const Row(children: [
                           Icon(Icons.email),
                           SizedBox(

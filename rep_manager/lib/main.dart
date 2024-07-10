@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:rep_manager/pages/homePage.dart';
 import 'package:rep_manager/pages/import.dart';
 import 'package:rep_manager/pages/loadingPage.dart';
 import 'package:rep_manager/pages/repsPage.dart';
 import 'package:rep_manager/themes/theme.dart';
-//import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
+//import 'package:url_launcher/url_launcher.dart';
+//import 'package:path/path.dart';
 
 
 void main() {
@@ -21,6 +21,7 @@ void main() {
   );
 }
 
+//ignore: must_be_immutable
 class MainApp extends StatefulWidget {
   MainApp({Key? key}) : super(key: key);
 
