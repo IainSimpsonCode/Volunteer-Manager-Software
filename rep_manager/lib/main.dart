@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:rep_manager/pages/homePage.dart';
 import 'package:rep_manager/pages/import.dart';
+import 'package:rep_manager/pages/loadingPage.dart';
 import 'package:rep_manager/pages/repsPage.dart';
 import 'package:rep_manager/themes/theme.dart';
 //import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 
-void main() async {
-  studentData = await loadCsvData(r"C:\Users\Iain Simpson\Desktop\UCLan SU\Admin Role\Volunteer Manager Software Sample Data");
-  //findCsvFiles(r"C:\Users\Iain Simpson\Desktop\UCLan SU\Admin Role\Volunteer Manager Software Sample Data");
-  
-  runApp(MainApp());
+
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => FocusBoxNotifier()),
+        ChangeNotifierProvider(create: (context) => DataNotifier()),
+      ],
+      child: MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatefulWidget {
   MainApp({Key? key}) : super(key: key);
+
+  //final entryPoint = const loadingPage();
+  Widget currentDisplay = const loadingPage();
 
   @override
   State<MainApp> createState() => _MainAppState();
 }
 class _MainAppState extends State<MainApp>
 {
-  Widget currentDisplay = repPage();
 
   @override
   void initState() {
@@ -50,7 +61,7 @@ class _MainAppState extends State<MainApp>
                   iconSize: 35,
                   onPressed: () {
                     setState(() {
-                      currentDisplay = const homePage();
+                      widget.currentDisplay = const homePage();
                     });
                   }, 
                 ),
@@ -60,7 +71,7 @@ class _MainAppState extends State<MainApp>
                   iconSize: 35,
                   onPressed: () {
                     setState(() {
-                      currentDisplay = repPage();
+                      widget.currentDisplay = repPage();
                     });
                   }, 
                 ),
@@ -70,7 +81,7 @@ class _MainAppState extends State<MainApp>
                     iconSize: 35,
                     onPressed: () {
                       setState(() {
-                        currentDisplay = StudentList();
+                        widget.currentDisplay = StudentList();
                       });
                     },
                   ),
@@ -82,7 +93,7 @@ class _MainAppState extends State<MainApp>
           Container(
             width: MediaQuery.sizeOf(context).width,
             height: MediaQuery.sizeOf(context).height - 50,
-            child: currentDisplay,
+            child: widget.currentDisplay,
           ),
         ], ),
       ),

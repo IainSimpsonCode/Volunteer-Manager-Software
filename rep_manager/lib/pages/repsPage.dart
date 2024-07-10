@@ -1,7 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rep_manager/components/Rep%20Page/FocusBox.dart';
 import 'package:rep_manager/pages/import.dart';
 import "package:rep_manager/themes/theme.dart";
+
+class FocusBoxNotifier extends ChangeNotifier {
+  int _focusedIndex = 0;
+  bool _focusEdit = false;
+  bool _focusSelected = false;
+
+  int get focusedIndex => _focusedIndex;
+  bool get focusEdit => _focusEdit;
+  bool get focusSelected => _focusSelected;
+
+  void updateFocusedIndex(int newValue) {
+    _focusedIndex = newValue;
+    notifyListeners();
+  }
+
+  void updateFocusEdit(bool newValue) {
+    _focusEdit = newValue;
+    notifyListeners();
+  }
+
+  void updateFocusSelected(bool newValue) {
+    _focusSelected = newValue;
+    notifyListeners();
+  }
+}
 
 //ignore: must_be_immutable
 class repPage extends StatefulWidget {
@@ -10,13 +36,12 @@ class repPage extends StatefulWidget {
   List<int> selectedIndexes = [];
 
   List<String> filters = [];
-  List<Student> filteredListOfStudents = List.from(studentData);
-  
-  bool focusSelected = false;
-  int focusedIndex = 0;
-  bool focusEdit = false;
+  List<Student> filteredListOfStudents = [];
 
-  bool? checkedValue = false;
+  //int focusedIndex = 0;
+  //bool focusEdit = false;
+
+  //bool? checkedValue = false;
 
   @override
   State<repPage> createState() => _repPageState();
@@ -27,6 +52,29 @@ class _repPageState extends State<repPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    Provider.of<DataNotifier>(context, listen: false).addListener(_onNotifierChange);
+  }
+
+  @override
+  void dispose() {
+    Provider.of<DataNotifier>(context, listen: false).removeListener(_onNotifierChange);
+    super.dispose();
+  }
+
+  void _onNotifierChange() {
+    // Call setState to rebuild the widget when notifier changes
+    setState(() {
+      print("Resetting Rep Page");
+
+      widget.filters.clear();
+      widget.filteredListOfStudents.clear();
+      widget.selectedIndexes.clear();
+
+      Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusSelected(false);
+      Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusedIndex(0);
+      Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusEdit(false);
+    });
   }
 
   @override
@@ -38,8 +86,12 @@ class _repPageState extends State<repPage> {
     Icon downloadRepInformationIcon = const Icon(Icons.download);
     Icon deleteRepIcon = const Icon(Icons.delete);
 
+    if (widget.filters.isEmpty) {
+      widget.filteredListOfStudents = List.from(Provider.of<DataNotifier>(context, listen: false).studentData);
+    }
+
     List<Widget> filterCheckboxes = [const SizedBox(height: 10,)];
-    for (List<List<String>> group in groups) {
+    for (List<List<String>> group in Provider.of<DataNotifier>(context, listen: false).groups) {
       filterCheckboxes.add(Row(
         children: [
           const SizedBox(width: 20,),
@@ -70,10 +122,10 @@ class _repPageState extends State<repPage> {
               widget.filteredListOfStudents.clear();
 
               if (widget.filters.isEmpty) {
-                widget.filteredListOfStudents = List.from(studentData);
+                widget.filteredListOfStudents = List.from(Provider.of<DataNotifier>(context, listen: false).studentData);
               }
               else {
-                for (Student student in studentData) {
+                for (Student student in Provider.of<DataNotifier>(context, listen: false).studentData) {
                   for (String label in student.labels) {
                     if (widget.filters.contains(label)) {
                       widget.filteredListOfStudents.add(student);
@@ -105,9 +157,9 @@ class _repPageState extends State<repPage> {
     double focusBoxHeight = 0;
     Widget focusBox = Container(height: 0);
 
-    if (widget.focusSelected) {
+    if (Provider.of<FocusBoxNotifier>(context).focusSelected) {
       focusBoxHeight = 350;
-      focusBox = FocusBox(focusRepIndex: widget.focusedIndex, focusBoxHeight: focusBoxHeight);
+      focusBox = FocusBox(focusRepIndex: Provider.of<FocusBoxNotifier>(context, listen: false).focusedIndex, focusBoxHeight: focusBoxHeight);
     }
 
     String selectAllText = "Select All";
@@ -154,7 +206,7 @@ class _repPageState extends State<repPage> {
                     }
                     else {
                       setState(() {
-                        widget.focusEdit = !widget.focusEdit;
+                        Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusEdit(!Provider.of<FocusBoxNotifier>(context, listen: false).focusEdit);
                       });
                     }
                   },
@@ -181,9 +233,9 @@ class _repPageState extends State<repPage> {
                   if (widget.selectedIndexes.isEmpty) {
                     setState(() {
                       for (int i = 0; i < widget.filteredListOfStudents.length; i++) {
-                        widget.selectedIndexes.add(studentData.indexOf(widget.filteredListOfStudents[i]));
+                        widget.selectedIndexes.add(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(widget.filteredListOfStudents[i]));
 
-                        //widget.selectedIndexes.add(i);
+                        //selectedIndexes.add(i);
                       }
                     });
                   }
@@ -226,19 +278,19 @@ class _repPageState extends State<repPage> {
             itemBuilder: (BuildContext context, int index) {
 
               Icon circleIcon = const Icon(Icons.circle_outlined, color: textColor,);
-              if (widget.selectedIndexes.contains(studentData.indexOf(widget.filteredListOfStudents[index]))) { circleIcon = Icon(Icons.circle, color: primaryColor,); }
+              if (widget.selectedIndexes.contains(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(widget.filteredListOfStudents[index]))) { circleIcon = Icon(Icons.circle, color: primaryColor,); }
 
               return ListTile(
                 leading: GestureDetector(
                   child: circleIcon,
                   onTap: () {
-                    if (widget.selectedIndexes.contains(studentData.indexOf(widget.filteredListOfStudents[index]))) {
+                    if (widget.selectedIndexes.contains(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(widget.filteredListOfStudents[index]))) {
                       setState(() {
-                        widget.selectedIndexes.remove(studentData.indexOf(widget.filteredListOfStudents[index]));
+                        widget.selectedIndexes.remove(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(widget.filteredListOfStudents[index]));
                       });
                     } else {
                       setState(() {
-                        widget.selectedIndexes.add(studentData.indexOf(widget.filteredListOfStudents[index]));
+                        widget.selectedIndexes.add(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(widget.filteredListOfStudents[index]));
                       });
                     }
                   },
@@ -270,8 +322,8 @@ class _repPageState extends State<repPage> {
                 ), 
                 onTap: () {
                   setState(() {
-                    widget.focusSelected = true;
-                    widget.focusedIndex = studentData.indexOf(widget.filteredListOfStudents[index]);
+                    Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusSelected(true);
+                    Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusedIndex(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(widget.filteredListOfStudents[index]));
                   });
                 },                
               );

@@ -3,9 +3,28 @@ import 'package:csv/csv.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:path/path.dart' as path;
+import 'package:provider/provider.dart';
 
-List<Student> studentData = [];
-List<List<List<String>>> groups = [];
+//List<Student> studentData = [];
+//List<List<List<String>>> groups = [];
+
+class DataNotifier extends ChangeNotifier {
+  List<Student> _studentData = [];
+  List<List<List<String>>> _groups = [];
+
+  List<Student> get studentData => _studentData;
+  List<List<List<String>>> get groups => _groups;
+
+  void updateStudentData(List<Student> newValue) {
+    _studentData = newValue;
+    notifyListeners();
+  }
+
+  void updateGroups(List<List<List<String>>> newValue) {
+    _groups = newValue;
+    notifyListeners();
+  }
+}
 
 class StudentList extends StatefulWidget {
   @override
@@ -25,9 +44,9 @@ class _StudentListState extends State<StudentList> {
         title: Text('Student List'),
       ),
       body: ListView.builder(
-              itemCount: studentData.length,
+              itemCount: Provider.of<DataNotifier>(context, listen: false).studentData.length,
               itemBuilder: (context, index) {
-                final student = studentData[index];
+                final student = Provider.of<DataNotifier>(context, listen: false).studentData[index];
                 return ListTile(
                   title: Text('${student.firstName} ${student.lastName}'),
                   subtitle: Text(student.course),
@@ -91,7 +110,9 @@ class Student {
   }
 }
 
-Future<List<Student>> loadCsvData(String folderPath) async {
+Future<List<Student>> loadCsvData(BuildContext context, String folderPath) async {
+  print("Reloading CSV Data");
+
   List<File> csvFiles = [];
   List<Student> csvData = [];
   List<String> fileNames = [];
@@ -132,14 +153,16 @@ Future<List<Student>> loadCsvData(String folderPath) async {
     csvData.addAll(studentList);
   }
 
-  groups.clear();
-  groups.add(
-    [
+  //groups.clear();
+  //groups.add(
+  Provider.of<DataNotifier>(context, listen: false).updateGroups(
+    [[
       ["All Groups"],
       fileNames
-    ]
+    ]]
   );
   
+  Provider.of<DataNotifier>(context, listen: false).updateStudentData(csvData);
   return csvData;
 
   // final csvData = await input
