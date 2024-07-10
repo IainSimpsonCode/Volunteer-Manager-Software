@@ -6,7 +6,33 @@ import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
 //List<Student> studentData = [];
-//List<List<List<String>>> groups = [];
+// List<List<List<String>>> groupsExample = 
+// [
+//   [
+//     ["Course Rep Groups"],
+//     [
+//       "Group 1",
+//       "Group 2",
+//       "Group 3",
+//     ]
+//   ],
+//   [
+//     ["Senior Reps"],
+//     [
+//       "School President",
+//       "Sattellite Campus Reps"
+//     ]
+//   ],
+//   [
+//     ["Council"],
+//     [
+//       "Council Members",
+//       "Liberation Reps",
+//       "Sectional Reps",
+//     ]
+//   ],
+// ];
+
 
 class DataNotifier extends ChangeNotifier {
   List<Student> _studentData = [];
@@ -156,10 +182,12 @@ Future<List<Student>> loadCsvData(BuildContext context, String folderPath) async
   //groups.clear();
   //groups.add(
   Provider.of<DataNotifier>(context, listen: false).updateGroups(
-    [[
-      ["All Groups"],
-      fileNames
-    ]]
+    [
+      [
+        ["All Groups"],
+        fileNames,
+      ],
+    ]
   );
   
   Provider.of<DataNotifier>(context, listen: false).updateStudentData(csvData);

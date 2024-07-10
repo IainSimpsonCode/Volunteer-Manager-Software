@@ -29,19 +29,74 @@ class FocusBoxNotifier extends ChangeNotifier {
   }
 }
 
-//ignore: must_be_immutable
-class repPage extends StatefulWidget {
-  repPage({Key? key}) : super(key: key);
-
+class FilterInfoNotifier extends ChangeNotifier {
+  List<String> _filters = [];
+  List<Student> _filteredListOfStudents = [];
   List<int> selectedIndexes = [];
 
-  List<String> filters = [];
-  List<Student> filteredListOfStudents = [];
+  List<String> get filters => _filters;
+  List<Student> get filteredListOfStudents => _filteredListOfStudents;
 
-  //int focusedIndex = 0;
-  //bool focusEdit = false;
+  void toggleFilter(BuildContext context, String filter) {
 
-  //bool? checkedValue = false;
+    if (_filters.contains(filter)) {
+      _filters.remove(filter);
+    } else {
+      _filters.add(filter);
+    }
+
+    _filteredListOfStudents.clear();
+
+    if (_filters.isEmpty) {
+      _filteredListOfStudents = List.from(Provider.of<DataNotifier>(context, listen: false).studentData);
+    } else {
+      for (Student student in Provider.of<DataNotifier>(context, listen: false).studentData) {
+        for (String label in student.labels) {
+          if (_filters.contains(label)) {
+            _filteredListOfStudents.add(student);
+          }
+        }
+      }
+    }
+
+    notifyListeners();
+  }
+
+  void setFilter(String filter) {
+    if (!_filters.contains(filter)) {
+      _filters.add(filter);
+    }
+  }
+
+  void initialiseFilteredListOfStudents(List<Student> newValue) {
+    _filteredListOfStudents = newValue;
+  }
+
+  void setFilteredListOfStudents(List<Student> newValue) {
+    _filteredListOfStudents = newValue;
+    notifyListeners();
+  }
+
+  void autosetFilteredListOfStudents(BuildContext context) {
+    _filteredListOfStudents.clear();
+
+    if (_filters.isEmpty) {     
+      _filteredListOfStudents = List.from(Provider.of<DataNotifier>(context, listen: false).studentData);
+    } else {
+      for (Student student in Provider.of<DataNotifier>(context, listen: false).studentData) {
+        for (String label in student.labels) {
+          if (_filters.contains(label)) {
+            _filteredListOfStudents.add(student);
+          }
+        }
+      }
+    }
+  }
+}
+
+//ignore: must_be_immutable
+class repPage extends StatefulWidget {
+  const repPage({Key? key}) : super(key: key);
 
   @override
   State<repPage> createState() => _repPageState();
@@ -53,23 +108,18 @@ class _repPageState extends State<repPage> {
     // TODO: implement initState
     super.initState();
 
-    Provider.of<DataNotifier>(context, listen: false).addListener(_onNotifierChange);
+    Provider.of<DataNotifier>(context, listen: false).addListener(_onCSVNotifierChange);
+    Provider.of<FilterInfoNotifier>(context, listen: false).addListener(_onFilterNotifierChange);
   }
 
-  @override
-  void dispose() {
-    Provider.of<DataNotifier>(context, listen: false).removeListener(_onNotifierChange);
-    super.dispose();
-  }
-
-  void _onNotifierChange() {
+  void _onCSVNotifierChange() {
     // Call setState to rebuild the widget when notifier changes
     setState(() {
       print("Resetting Rep Page");
 
-      widget.filters.clear();
-      widget.filteredListOfStudents.clear();
-      widget.selectedIndexes.clear();
+      Provider.of<FilterInfoNotifier>(context, listen: false).filters.clear();
+      Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents.clear();
+      Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.clear();
 
       Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusSelected(false);
       Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusedIndex(0);
@@ -77,8 +127,16 @@ class _repPageState extends State<repPage> {
     });
   }
 
+  void _onFilterNotifierChange() {
+    // setState(() {
+      
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    Provider.of<FilterInfoNotifier>(context).autosetFilteredListOfStudents(context);
 
     Icon addNewRepIcon = const Icon(Icons.add, color: textColor,);
     Icon editRepDetailsIcon = const Icon(Icons.edit, color: textColor,);
@@ -86,8 +144,8 @@ class _repPageState extends State<repPage> {
     Icon downloadRepInformationIcon = const Icon(Icons.download);
     Icon deleteRepIcon = const Icon(Icons.delete);
 
-    if (widget.filters.isEmpty) {
-      widget.filteredListOfStudents = List.from(Provider.of<DataNotifier>(context, listen: false).studentData);
+    if (Provider.of<FilterInfoNotifier>(context, listen: false).filters.isEmpty) {
+      Provider.of<FilterInfoNotifier>(context, listen: false).initialiseFilteredListOfStudents(List.from(Provider.of<DataNotifier>(context, listen: false).studentData));
     }
 
     List<Widget> filterCheckboxes = [const SizedBox(height: 10,)];
@@ -100,7 +158,7 @@ class _repPageState extends State<repPage> {
       ));
       for (String filterItem in group[1]) {
         bool startValue = false;
-        if (widget.filters.contains(filterItem)) {
+        if (Provider.of<FilterInfoNotifier>(context, listen: false).filters.contains(filterItem)) {
           startValue = true;
         }
 
@@ -113,26 +171,7 @@ class _repPageState extends State<repPage> {
           value: startValue,
           onChanged: (newValue) {
             setState(() {
-              if (widget.filters.contains(filterItem)) {
-                widget.filters.remove(filterItem);
-              } else {
-                widget.filters.add(filterItem);
-              }
-            
-              widget.filteredListOfStudents.clear();
-
-              if (widget.filters.isEmpty) {
-                widget.filteredListOfStudents = List.from(Provider.of<DataNotifier>(context, listen: false).studentData);
-              }
-              else {
-                for (Student student in Provider.of<DataNotifier>(context, listen: false).studentData) {
-                  for (String label in student.labels) {
-                    if (widget.filters.contains(label)) {
-                      widget.filteredListOfStudents.add(student);
-                    }
-                  }
-                }
-              }
+              Provider.of<FilterInfoNotifier>(context, listen: false).toggleFilter(context, filterItem);
             });
           },
           controlAffinity:
@@ -141,7 +180,7 @@ class _repPageState extends State<repPage> {
       }
     }
 
-    if (widget.selectedIndexes.length > 1) {
+    if (Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.length > 1) {
       editRepDetailsIcon = const Icon(
         Icons.edit,
         color: Color.fromARGB(100, 0, 0, 0),
@@ -164,8 +203,8 @@ class _repPageState extends State<repPage> {
 
     String selectAllText = "Select All";
     Icon selectAllIcon = Icon(Icons.circle_outlined);
-    if (widget.selectedIndexes.isNotEmpty) {
-      selectAllText = "${widget.selectedIndexes.length} Selected";
+    if (Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.isNotEmpty) {
+      selectAllText = "${Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.length} Selected";
       selectAllIcon = const Icon(Icons.circle, color: primaryColor,);
     }
 
@@ -200,7 +239,7 @@ class _repPageState extends State<repPage> {
               GestureDetector(
                   child: editRepDetailsIcon,
                   onTap: () {
-                    if (widget.selectedIndexes.length > 1)
+                    if (Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.length > 1)
                     {
                       // Do nothing if more than 1 person is selected
                     }
@@ -230,10 +269,10 @@ class _repPageState extends State<repPage> {
               GestureDetector(
                 child: selectAllIcon,
                 onTap: () {
-                  if (widget.selectedIndexes.isEmpty) {
+                  if (Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.isEmpty) {
                     setState(() {
-                      for (int i = 0; i < widget.filteredListOfStudents.length; i++) {
-                        widget.selectedIndexes.add(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(widget.filteredListOfStudents[i]));
+                      for (int i = 0; i < Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents.length; i++) {
+                        Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.add(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[i]));
 
                         //selectedIndexes.add(i);
                       }
@@ -241,7 +280,7 @@ class _repPageState extends State<repPage> {
                   }
                   else {
                     setState(() {
-                      widget.selectedIndexes.clear();
+                      Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.clear();
                     });
                   }
                 },
@@ -274,33 +313,33 @@ class _repPageState extends State<repPage> {
           width: MediaQuery.sizeOf(context).width - 400,
           height: MediaQuery.sizeOf(context).height - (150 + focusBoxHeight),
           child: ListView.builder(
-            itemCount: widget.filteredListOfStudents.length,
+            itemCount: Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents.length,
             itemBuilder: (BuildContext context, int index) {
 
               Icon circleIcon = const Icon(Icons.circle_outlined, color: textColor,);
-              if (widget.selectedIndexes.contains(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(widget.filteredListOfStudents[index]))) { circleIcon = Icon(Icons.circle, color: primaryColor,); }
+              if (Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.contains(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index]))) { circleIcon = Icon(Icons.circle, color: primaryColor,); }
 
               return ListTile(
                 leading: GestureDetector(
                   child: circleIcon,
                   onTap: () {
-                    if (widget.selectedIndexes.contains(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(widget.filteredListOfStudents[index]))) {
+                    if (Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.contains(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index]))) {
                       setState(() {
-                        widget.selectedIndexes.remove(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(widget.filteredListOfStudents[index]));
+                        Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.remove(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index]));
                       });
                     } else {
                       setState(() {
-                        widget.selectedIndexes.add(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(widget.filteredListOfStudents[index]));
+                        Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.add(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index]));
                       });
                     }
                   },
                 ),
-                title: Text('${widget.filteredListOfStudents[index].firstName} ${widget.filteredListOfStudents[index].lastName}', style: paragraph, maxLines: 2, softWrap: false,),
+                title: Text('${Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index].firstName} ${Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index].lastName}', style: paragraph, maxLines: 2, softWrap: false,),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      widget.filteredListOfStudents[index].course,
+                      Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index].course,
                       style: paragraph,
                       maxLines: 2,
                       softWrap: true, 
@@ -310,7 +349,7 @@ class _repPageState extends State<repPage> {
                       width: 40,
                       height: 20,
                       child: Text(
-                        widget.filteredListOfStudents[index].year,
+                        Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index].year,
                         style: paragraph,
                       ),
                     )
@@ -323,7 +362,7 @@ class _repPageState extends State<repPage> {
                 onTap: () {
                   setState(() {
                     Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusSelected(true);
-                    Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusedIndex(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(widget.filteredListOfStudents[index]));
+                    Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusedIndex(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index]));
                   });
                 },                
               );

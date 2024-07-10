@@ -8,6 +8,14 @@ import 'package:provider/provider.dart';
 //import 'package:url_launcher/url_launcher.dart';
 //import 'package:path/path.dart';
 
+class PageNotifier extends ChangeNotifier {
+  Widget currentDisplay = const loadingPage();
+
+  void setDisplay(Widget newPage) {
+    currentDisplay = newPage;
+    notifyListeners();
+  }
+}
 
 void main() {
   runApp(
@@ -15,6 +23,8 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => FocusBoxNotifier()),
         ChangeNotifierProvider(create: (context) => DataNotifier()),
+        ChangeNotifierProvider(create: (context) => FilterInfoNotifier()),
+        ChangeNotifierProvider(create: (context) => PageNotifier()),
       ],
       child: MainApp(),
     ),
@@ -26,7 +36,7 @@ class MainApp extends StatefulWidget {
   MainApp({Key? key}) : super(key: key);
 
   //final entryPoint = const loadingPage();
-  Widget currentDisplay = const loadingPage();
+  //Widget currentDisplay = const loadingPage();
 
   @override
   State<MainApp> createState() => _MainAppState();
@@ -36,8 +46,15 @@ class _MainAppState extends State<MainApp>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    
+    Provider.of<PageNotifier>(context, listen: false).addListener(_onPageNotifierChange);
+  }
+
+  void _onPageNotifierChange() {
+    setState(() {
+      
+    });
   }
 
   @override
@@ -62,7 +79,7 @@ class _MainAppState extends State<MainApp>
                   iconSize: 35,
                   onPressed: () {
                     setState(() {
-                      widget.currentDisplay = const homePage();
+                      Provider.of<PageNotifier>(context, listen: false).setDisplay(const homePage());
                     });
                   }, 
                 ),
@@ -72,7 +89,7 @@ class _MainAppState extends State<MainApp>
                   iconSize: 35,
                   onPressed: () {
                     setState(() {
-                      widget.currentDisplay = repPage();
+                      Provider.of<PageNotifier>(context, listen: false).setDisplay(const repPage());
                     });
                   }, 
                 ),
@@ -82,7 +99,7 @@ class _MainAppState extends State<MainApp>
                     iconSize: 35,
                     onPressed: () {
                       setState(() {
-                        widget.currentDisplay = StudentList();
+                        Provider.of<PageNotifier>(context, listen: false).setDisplay(StudentList());
                       });
                     },
                   ),
@@ -94,7 +111,7 @@ class _MainAppState extends State<MainApp>
           Container(
             width: MediaQuery.sizeOf(context).width,
             height: MediaQuery.sizeOf(context).height - 50,
-            child: widget.currentDisplay,
+            child: Provider.of<PageNotifier>(context, listen: false).currentDisplay,
           ),
         ], ),
       ),
