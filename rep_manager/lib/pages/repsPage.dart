@@ -175,7 +175,7 @@ class _repPageState extends State<repPage> {
             });
           },
           controlAffinity:
-              ListTileControlAffinity.leading, //  <-- leading Checkbox
+            ListTileControlAffinity.leading, //  <-- leading Checkbox
         ));               
       }
     }

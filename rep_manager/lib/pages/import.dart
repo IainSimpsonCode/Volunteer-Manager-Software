@@ -67,18 +67,18 @@ class _StudentListState extends State<StudentList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Student List'),
+        title: const Text('Student List'),
       ),
       body: ListView.builder(
-              itemCount: Provider.of<DataNotifier>(context, listen: false).studentData.length,
-              itemBuilder: (context, index) {
-                final student = Provider.of<DataNotifier>(context, listen: false).studentData[index];
-                return ListTile(
-                  title: Text('${student.firstName} ${student.lastName}'),
-                  subtitle: Text(student.course),
-                );
-              },
-            )
+        itemCount: Provider.of<DataNotifier>(context, listen: false).studentData.length,
+        itemBuilder: (context, index) {
+          final student = Provider.of<DataNotifier>(context, listen: false).studentData[index];
+          return ListTile(
+            title: Text('${student.firstName} ${student.lastName}'),
+            subtitle: Text(student.course),
+          );
+        },
+      )
     );
   }
 }

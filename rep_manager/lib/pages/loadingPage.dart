@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:rep_manager/pages/homePage.dart';
 import 'import.dart';
 
+class ConflictingInformationNotifier extends ChangeNotifier {
+  List<List<Student>> conflictingRecords = [];
+
+  void addRecord(Student student1, Student student2) {
+    conflictingRecords.add([student1, student2]);
+  }
+}
+
 class loadingPage extends StatefulWidget {
   const loadingPage({Key? key}) : super(key: key);
 

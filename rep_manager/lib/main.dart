@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rep_manager/pages/homePage.dart';
 import 'package:rep_manager/pages/import.dart';
+import 'package:rep_manager/pages/infoValidationPage.dart';
 import 'package:rep_manager/pages/loadingPage.dart';
 import 'package:rep_manager/pages/repsPage.dart';
 import 'package:rep_manager/themes/theme.dart';
@@ -25,6 +26,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => DataNotifier()),
         ChangeNotifierProvider(create: (context) => FilterInfoNotifier()),
         ChangeNotifierProvider(create: (context) => PageNotifier()),
+        ChangeNotifierProvider(create: (context) => ConflictingInformationNotifier()),
       ],
       child: MainApp(),
     ),
@@ -41,6 +43,7 @@ class MainApp extends StatefulWidget {
   @override
   State<MainApp> createState() => _MainAppState();
 }
+
 class _MainAppState extends State<MainApp>
 {
 
@@ -100,6 +103,16 @@ class _MainAppState extends State<MainApp>
                     onPressed: () {
                       setState(() {
                         Provider.of<PageNotifier>(context, listen: false).setDisplay(StudentList());
+                      });
+                    },
+                  ),
+                const SizedBox(width: 25),
+                IconButton(
+                    icon: const Icon(Icons.bug_report),
+                    iconSize: 35,
+                    onPressed: () {
+                      setState(() {
+                        Provider.of<PageNotifier>(context, listen: false).setDisplay(const infoValidationPage());
                       });
                     },
                   ),
