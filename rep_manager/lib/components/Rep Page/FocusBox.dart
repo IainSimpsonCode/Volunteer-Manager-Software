@@ -12,54 +12,100 @@ String encodeQueryParameters(Map<String, String> params) {
       .join('&');
 }
 
+Container focusBoxRolesInformation(List<Widget> allRoles, double focusBoxWidth) {
+  if ((focusBoxWidth + sideBarWidth) < reducedScreenSize) {
+    return Container();
+  }
+  else {
+    return Container(
+      width: focusBoxWidth / 2,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            children: [
+              Text(
+                "Roles:",
+                style: h2,
+              ),
+              SizedBox(
+                width: focusBoxWidth / 3,
+                child: Column(children: allRoles),
+              ),
+            ],
+          ),
+          const SizedBox(width: 35),
+        ],
+      ),
+    );
+  }
+}
+
 class FocusBox extends StatelessWidget {
-  const FocusBox({Key? key, required this.focusRepIndex, required this.focusBoxHeight}) : super(key: key);
+  const FocusBox(
+      {Key? key, required this.focusRepIndex, required this.focusBoxHeight})
+      : super(key: key);
 
   final int focusRepIndex;
   final double focusBoxHeight;
 
   @override
   Widget build(BuildContext context) {
-
     double focusBoxWidth = MediaQuery.sizeOf(context).width - 400;
 
-    List<Widget> allRoles = [
-
-    ];
-    for (String role in Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].labels) {
+    List<Widget> allRoles = [];
+    for (String role in Provider.of<DataNotifier>(context, listen: false)
+        .studentData[focusRepIndex]
+        .labels) {
       allRoles.add(Text(
         role,
         style: paragraph,
+        softWrap: true,
+        textAlign: TextAlign.center,
       ));
     }
 
     List<Widget> staticInformation = [
       Text(
-        Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].studentNumber,
+        Provider.of<DataNotifier>(context, listen: false)
+            .studentData[focusRepIndex]
+            .studentNumber,
         style: paragraph,
       ),
       Text(
-        Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].email,
+        Provider.of<DataNotifier>(context, listen: false)
+            .studentData[focusRepIndex]
+            .email,
         style: paragraph,
       ),
       Text(
-        Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].mode,
+        Provider.of<DataNotifier>(context, listen: false)
+            .studentData[focusRepIndex]
+            .mode,
         style: paragraph,
       ),
       Text(
-        Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].campus,
+        Provider.of<DataNotifier>(context, listen: false)
+            .studentData[focusRepIndex]
+            .campus,
         style: paragraph,
       ),
       Text(
-        Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].level,
+        Provider.of<DataNotifier>(context, listen: false)
+            .studentData[focusRepIndex]
+            .level,
         style: paragraph,
       ),
       Text(
-        Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].startDate,
+        Provider.of<DataNotifier>(context, listen: false)
+            .studentData[focusRepIndex]
+            .startDate,
         style: paragraph,
       ),
       Text(
-        Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].endDate,
+        Provider.of<DataNotifier>(context, listen: false)
+            .studentData[focusRepIndex]
+            .endDate,
         style: paragraph,
       ),
     ];
@@ -126,7 +172,8 @@ class FocusBox extends StatelessWidget {
                 ),
                 onTap: () {
                   // Close the focus box
-                  Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusSelected(false);
+                  Provider.of<FocusBoxNotifier>(context, listen: false)
+                      .updateFocusSelected(false);
                 },
               )
             ],
@@ -134,150 +181,135 @@ class FocusBox extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          Row(
-            children: [
-              Container(
-                width: focusBoxWidth / 2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const SizedBox(width: 35),
-                
-                    // Rep Information
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [                      
-                        Text(
-                          '${Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].firstName} ${Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].lastName}',
-                          style: h3,
-                        ),
-                        Text(
-                          Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].course,
-                          style: paragraph,
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "G Number:",
-                                  style: paragraph,
-                                ),
-                                Text(
-                                  "Email:",
-                                  style: paragraph,
-                                ),
-                                Text(
-                                  "Mode:",
-                                  style: paragraph,
-                                ),
-                                Text(
-                                  "Campus:",
-                                  style: paragraph,
-                                ),
-                                Text(
-                                  "Level:",
-                                  style: paragraph,
-                                ),
-                                Text(
-                                  "Start Date:",
-                                  style: paragraph,
-                                ),
-                                Text(
-                                  "End Date:",
-                                  style: paragraph,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Column(
+          Row(children: [
+            Container(
+              width: focusBoxWidth / 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(width: 35),
+
+                  // Rep Information
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].firstName} ${Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].lastName}',
+                        style: h3,
+                      ),
+                      Text(
+                        Provider.of<DataNotifier>(context, listen: false)
+                            .studentData[focusRepIndex]
+                            .course,
+                        style: paragraph,
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "G Number:",
+                                style: paragraph,
+                              ),
+                              Text(
+                                "Email:",
+                                style: paragraph,
+                              ),
+                              Text(
+                                "Mode:",
+                                style: paragraph,
+                              ),
+                              Text(
+                                "Campus:",
+                                style: paragraph,
+                              ),
+                              Text(
+                                "Level:",
+                                style: paragraph,
+                              ),
+                              Text(
+                                "Start Date:",
+                                style: paragraph,
+                              ),
+                              Text(
+                                "End Date:",
+                                style: paragraph,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: focusBoxInformation
-                            ),
-                            
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Colors.black,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
+                              children: focusBoxInformation),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
                                 ),
-                                onPressed: () async {
-                                  final Uri emailLaunchUri = Uri(
-                                    scheme: 'mailto',
-                                    path: Provider.of<DataNotifier>(context, listen: false).studentData[focusRepIndex].email,
-                                    query: encodeQueryParameters(<String, String>{
-                                    }),
-                                  );
-                
-                                  if (await canLaunchUrl(emailLaunchUri)) {
-                                    await launchUrl(emailLaunchUri);
-                                  }
-                                },
-                                child: const Row(children: [
-                                  Icon(Icons.email),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("Email")
-                                ])),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Colors.red,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
+                              ),
+                              onPressed: () async {
+                                final Uri emailLaunchUri = Uri(
+                                  scheme: 'mailto',
+                                  path: Provider.of<DataNotifier>(context,
+                                          listen: false)
+                                      .studentData[focusRepIndex]
+                                      .email,
+                                  query:
+                                      encodeQueryParameters(<String, String>{}),
+                                );
+
+                                if (await canLaunchUrl(emailLaunchUri)) {
+                                  await launchUrl(emailLaunchUri);
+                                }
+                              },
+                              child: const Row(children: [
+                                Icon(Icons.email),
+                                SizedBox(
+                                  width: 10,
                                 ),
-                                onPressed: () {},
-                                child: const Row(children: [
-                                  Icon(Icons.delete),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text("Delete")
-                                ]))
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+                                Text("Email")
+                              ])),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.red,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                              ),
+                              onPressed: () {},
+                              child: const Row(children: [
+                                Icon(Icons.delete),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text("Delete")
+                              ]))
+                        ],
+                      )
+                    ],
+                  ),
+                ],
               ),
-              
-              Container(
-                width: focusBoxWidth / 2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Column(
-                      children: [
-                        Text("Roles:", style: h2,),
-                        Column(children: allRoles,),
-                      ],
-                    ),
-                
-                    const SizedBox(width: 35),
-                  ],
-                ),
-              )
-            ]
-          ),
+            ),
+            focusBoxRolesInformation(allRoles, focusBoxWidth),
+          ]),
         ],
       ),
     );

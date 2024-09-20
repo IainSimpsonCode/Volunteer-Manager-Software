@@ -28,7 +28,7 @@ class _infoDisplayBoxState extends State<infoDisplayBox> {
         itemCount: Provider.of<ConflictingInformationNotifier>(context, listen: false).conflictingRecords.length,
         itemBuilder: ((context, set) {
           return Container(
-            height: MediaQuery.sizeOf(context).height - 50,
+            height: 300,
             decoration: const BoxDecoration(
               border: Border(
                 top: BorderSide(color: Colors.black),

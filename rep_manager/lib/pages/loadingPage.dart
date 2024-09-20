@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rep_manager/pages/homePage.dart';
+import 'package:rep_manager/secrets.dart';
 import 'import.dart';
 
 class ConflictingInformationNotifier extends ChangeNotifier {
@@ -27,7 +28,7 @@ class _loadingPageState extends State<loadingPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-      future: loadCsvData(context, r"C:\Users\Iain Simpson\Desktop\UCLan SU\Admin Role\Volunteer Manager Software Sample Data"),
+      future: loadCsvData(context, dataFilePath),
       builder: (context, snapshot) {
         // Check the connection state
         if (snapshot.connectionState == ConnectionState.waiting) {

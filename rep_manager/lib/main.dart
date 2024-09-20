@@ -116,6 +116,8 @@ class _MainAppState extends State<MainApp>
                       });
                     },
                   ),
+                const SizedBox(width: 25,),
+                Text(MediaQuery.sizeOf(context).width.toString(),)
               ],
             ),
           ),

@@ -42,4 +42,7 @@ TextStyle h3 = GoogleFonts.poppins(
 
 const compactScreenSize = 650;
 const mediumScreenSize = 840;
+const reducedScreenSize = 1200;
+
+const double sideBarWidth = 400;
 

@@ -211,7 +211,7 @@ class _repPageState extends State<repPage> {
     return Row(children: [
       //Side Bar
       Container(
-        width: 400,
+        width: sideBarWidth,
         height: MediaQuery.sizeOf(context).height - 50,
         decoration: BoxDecoration(
           color: secondaryColor,
@@ -223,7 +223,7 @@ class _repPageState extends State<repPage> {
       //Content
       Column( children: [
         Container(
-          width: MediaQuery.sizeOf(context).width - 400,
+          width: MediaQuery.sizeOf(context).width - sideBarWidth,
           height: 50,
           color: secondaryColor,
           child: Row(
@@ -292,7 +292,7 @@ class _repPageState extends State<repPage> {
           ),
         ),
         Container(
-          width: MediaQuery.sizeOf(context).width - 400,
+          width: MediaQuery.sizeOf(context).width - sideBarWidth,
           height: 50,
           child: Row(children: [
             const SizedBox(width: 53,),
@@ -310,7 +310,7 @@ class _repPageState extends State<repPage> {
           ]),
         ),
         Container(
-          width: MediaQuery.sizeOf(context).width - 400,
+          width: MediaQuery.sizeOf(context).width - sideBarWidth,
           height: MediaQuery.sizeOf(context).height - (150 + focusBoxHeight),
           child: ListView.builder(
             itemCount: Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents.length,
