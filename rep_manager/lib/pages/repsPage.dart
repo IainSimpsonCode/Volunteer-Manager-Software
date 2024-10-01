@@ -5,14 +5,22 @@ import 'package:rep_manager/pages/import.dart';
 import "package:rep_manager/themes/theme.dart";
 
 class FocusBoxNotifier extends ChangeNotifier {
+  // The focused student is the student displayed with extra information at the bottom of the repPage. 
+  // When a rep is clicked on repPage, they become focused and have extra information show up
+
+  // The index in the main studentData list of the currently selected rep
   int _focusedIndex = 0;
+  // Can the current student be editted
   bool _focusEdit = false;
+  // Should the focusBox be vidible at the bottom of the screen?
   bool _focusSelected = false;
 
+  // Getters
   int get focusedIndex => _focusedIndex;
   bool get focusEdit => _focusEdit;
   bool get focusSelected => _focusSelected;
 
+  // Setters
   void updateFocusedIndex(int newValue) {
     _focusedIndex = newValue;
     notifyListeners();
@@ -30,13 +38,18 @@ class FocusBoxNotifier extends ChangeNotifier {
 }
 
 class FilterInfoNotifier extends ChangeNotifier {
+  // A list of all currently enabled filters applied to the students displayed on repPage. Filters are treated as 1 filter OR another, rather than 1 filter AND another
   List<String> _filters = [];
+  // The list of students who fit 1 or more of the applied filters
   List<Student> _filteredListOfStudents = [];
+  // The index in the list of all studentData of which students have been selected using the small circle on the left of thier name.
   List<int> selectedIndexes = [];
 
+  // Getters
   List<String> get filters => _filters;
   List<Student> get filteredListOfStudents => _filteredListOfStudents;
 
+  // Setters
   void toggleFilter(BuildContext context, String filter) {
 
     if (_filters.contains(filter)) {
@@ -105,7 +118,6 @@ class repPage extends StatefulWidget {
 class _repPageState extends State<repPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Provider.of<DataNotifier>(context, listen: false).addListener(_onCSVNotifierChange);

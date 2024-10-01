@@ -56,7 +56,7 @@ class FocusBox extends StatelessWidget {
     List<Widget> allRoles = [];
     for (String role in Provider.of<DataNotifier>(context, listen: false)
         .studentData[focusRepIndex]
-        .labels) {
+        .roles) {
       allRoles.add(Text(
         role,
         style: paragraph,

@@ -12,7 +12,9 @@ class ConflictingInformationNotifier extends ChangeNotifier {
 }
 
 class loadingPage extends StatefulWidget {
-  const loadingPage({Key? key}) : super(key: key);
+  const loadingPage({Key? key, required this.returnPage}) : super(key: key);
+  
+  final Widget returnPage;
 
   @override
   State<loadingPage> createState() => _loadingPageState();
@@ -33,13 +35,56 @@ class _loadingPageState extends State<loadingPage> {
         // Check the connection state
         if (snapshot.connectionState == ConnectionState.waiting) {
           // While waiting, show a spinner
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           // If there was an error, show an error message
           return Text('Error: ${snapshot.error}');
         } else {
           // When complete, show the main content
-          return const homePage();
+          return widget.returnPage;
+        }
+      },
+    );
+  }
+}
+
+class reloadingPage extends StatefulWidget {
+  const reloadingPage({Key? key, required this.returnPage}) : super(key: key);
+
+  final Widget returnPage;
+
+  @override
+  State<loadingPage> createState() => _loadingPageState();
+}
+
+class _reloadingPageState extends State<reloadingPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: Save data here
+    /*
+      1. Sort through the contactInformation.csv file to find any new reps that have been inputted
+      2. Correct the information for any editted reps
+    */
+
+    return FutureBuilder<void>(
+      future: loadCsvData(context, dataFilePath),
+      builder: (context, snapshot) {
+        // Check the connection state
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While waiting, show a spinner
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          // If there was an error, show an error message
+          return Text('Error: ${snapshot.error}');
+        } else {
+          // When complete, show the main content
+          return widget.returnPage;
         }
       },
     );

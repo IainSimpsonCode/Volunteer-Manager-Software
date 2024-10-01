@@ -98,7 +98,7 @@ class Student {
   final String mode;
   final String startDate;
   final String endDate;
-  String roleTitle;
+  List<String> roles;
   List<String> labels;
 
   Student(
@@ -116,7 +116,7 @@ class Student {
       required this.mode,
       required this.startDate,
       required this.endDate,
-      required this.roleTitle,
+      required this.roles,
       required this.labels
     }
   );
@@ -161,7 +161,7 @@ class Student {
       mode: csvRow[7],
       startDate: csvRow[8],
       endDate: csvRow[9],
-      roleTitle: "",
+      roles: [],
       labels: [],
     );
   }
@@ -263,8 +263,17 @@ Future<List<Student>> loadCsvData(BuildContext context, String folderPath) async
       for (Role role in roleList) {        
         for (Student possibleMatch in csvData) {
           if (possibleMatch.studentNumber == role.studentNumber) {
-            possibleMatch.roleTitle = role.roleTitle;
-            possibleMatch.labels.add("${role.roleTitle} for ${role.course}");
+            possibleMatch.labels.add(role.roleTitle);
+
+            if (!possibleMatch.labels.contains(role.roleTitle)) {
+              possibleMatch.labels.add(role.roleTitle);
+            }
+
+            if (!possibleMatch.labels.contains(path.basename(file.path).substring(0, path.basename(file.path).length - 4))) {
+              possibleMatch.labels.add(path.basename(file.path).substring(0, path.basename(file.path).length - 4));
+            }
+
+            possibleMatch.roles.add("${role.roleTitle} for ${role.course}");
           }
         }
       }
