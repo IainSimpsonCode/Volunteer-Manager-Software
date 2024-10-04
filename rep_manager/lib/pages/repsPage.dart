@@ -126,17 +126,15 @@ class _repPageState extends State<repPage> {
 
   void _onCSVNotifierChange() {
     // Call setState to rebuild the widget when notifier changes
-    setState(() {
-      print("Resetting Rep Page");
+    print("Resetting Rep Page");
 
-      Provider.of<FilterInfoNotifier>(context, listen: false).filters.clear();
-      Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents.clear();
-      Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.clear();
+    // Provider.of<FilterInfoNotifier>(context, listen: false).filters.clear();
+    // Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents.clear();
+    // Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.clear();
 
-      Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusSelected(false);
-      Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusedIndex(0);
-      Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusEdit(false);
-    });
+    // Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusSelected(false);
+    // Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusedIndex(0);
+    // Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusEdit(false);
   }
 
   void _onFilterNotifierChange() {

@@ -34,11 +34,18 @@ import 'package:provider/provider.dart';
 // ];
 
 class DataNotifier extends ChangeNotifier {
+  String _dataSource = "";
   List<Student> _studentData = [];
   List<List<List<String>>> _groups = [];
 
+  String get dataSource => _dataSource;
   List<Student> get studentData => _studentData;
   List<List<List<String>>> get groups => _groups;
+
+  void updateDataSouce(String newDataSource) {
+    _dataSource = newDataSource;
+    //notifyListeners();
+  }
 
   void updateStudentData(List<Student> newValue) {
     _studentData = newValue;
