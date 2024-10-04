@@ -5,11 +5,11 @@ import 'package:provider/provider.dart';
 import 'import.dart';
 import 'repsPage.dart';
 
-class homePage extends StatefulWidget {
-  const homePage({Key? key}) : super(key: key);
+class analyticsPage extends StatefulWidget {
+  const analyticsPage({Key? key}) : super(key: key);
 
   @override
-  State<homePage> createState() => _homePageState();
+  State<analyticsPage> createState() => _analyticsPageState();
 }
 
 int getNumberOfGroups(BuildContext context) {
@@ -33,7 +33,7 @@ List<String> getAllGroupNames(BuildContext context) {
   return groupNames;
 }
 
-class _homePageState extends State<homePage> {
+class _analyticsPageState extends State<analyticsPage> {
   @override
   void initState() {
     // TODO: implement initState

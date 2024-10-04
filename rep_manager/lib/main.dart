@@ -1,6 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:rep_manager/pages/homePage.dart';
+import 'package:rep_manager/pages/analyticsPage.dart';
 import 'package:rep_manager/pages/import.dart';
 import 'package:rep_manager/pages/loadingPage.dart';
 import 'package:rep_manager/pages/repsPage.dart';
@@ -12,7 +12,7 @@ late SharedPreferences prefs;
 String loadedDataSource = '';
 
 class PageNotifier extends ChangeNotifier {
-  Widget currentDisplay = const loadingPage(returnPage: homePage());
+  Widget currentDisplay = const loadingPage(returnPage: analyticsPage());
 
   void setDisplay(Widget newPage) {
     currentDisplay = newPage;
@@ -139,12 +139,12 @@ class _MainAppState extends State<MainApp> {
 
                   // Navigation button to open the homePage
                   IconButton(
-                    icon: const Icon(Icons.home),
+                    icon: const Icon(Icons.analytics),
                     iconSize: topBarHeight * topBarIconScaleFactor,
                     onPressed: () {
                       setState(() {
                         Provider.of<PageNotifier>(context, listen: false)
-                            .setDisplay(const homePage());
+                            .setDisplay(const analyticsPage());
                       });
                     },
                   ),
@@ -230,7 +230,7 @@ class _MainAppState extends State<MainApp> {
                   // Spacer
                   const SizedBox(width: 25),
 
-                  // Refresh button to reload CSV data
+                  // Clear cache button (Debug use)
                   IconButton(
                     icon: const Icon(Icons.clear),
                     iconSize: topBarHeight * topBarIconScaleFactor,
