@@ -118,6 +118,7 @@ class _analyticsPageState extends State<analyticsPage> {
                       child: Center( child: Text(groupNames[index], style: h2, textAlign: TextAlign.center, softWrap: true,)),
                     ),
                     onTap: () {
+                      Provider.of<FilterInfoNotifier>(context, listen: false).clearFilters();
                       Provider.of<FilterInfoNotifier>(context, listen: false).setFilter(groupNames[index]);
                       Provider.of<PageNotifier>(context, listen: false).setDisplay(const repPage());
                     },
