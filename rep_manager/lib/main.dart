@@ -12,7 +12,7 @@ late SharedPreferences prefs;
 String loadedDataSource = '';
 
 class PageNotifier extends ChangeNotifier {
-  Widget currentDisplay = const loadingPage(returnPage: analyticsPage());
+  Widget currentDisplay = const loadingPage(returnPage: repPage());
 
   void setDisplay(Widget newPage) {
     currentDisplay = newPage;
@@ -139,7 +139,7 @@ class _MainAppState extends State<MainApp> {
 
                   // Navigation button to open the homePage
                   IconButton(
-                    icon: const Icon(Icons.analytics),
+                    icon: const Icon(Icons.insights),
                     iconSize: topBarHeight * topBarIconScaleFactor,
                     onPressed: () {
                       setState(() {

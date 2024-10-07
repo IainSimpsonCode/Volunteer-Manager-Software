@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rep_manager/pages/repsPage.dart';
 import 'import.dart';
 
 class ConflictingInformationNotifier extends ChangeNotifier {
@@ -29,6 +30,10 @@ class _loadingPageState extends State<loadingPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    Provider.of<FilterInfoNotifier>(context, listen: false).clearFilters();
+    Provider.of<FocusBoxNotifier>(context, listen: false).clearFocusBox();
+
     return FutureBuilder<void>(
       future: loadCsvData(context, Provider.of<DataNotifier>(context, listen: false).dataSource),
       //future: loadCsvData(context, dataFilePath),

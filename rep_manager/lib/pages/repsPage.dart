@@ -35,6 +35,12 @@ class FocusBoxNotifier extends ChangeNotifier {
     _focusSelected = newValue;
     notifyListeners();
   }
+
+  void clearFocusBox() {
+    _focusSelected = false;
+    _focusEdit = false;
+    _focusedIndex = 0;
+  }
 }
 
 class FilterInfoNotifier extends ChangeNotifier {
@@ -104,6 +110,12 @@ class FilterInfoNotifier extends ChangeNotifier {
         }
       }
     }
+  }
+
+  void clearFilters() {
+    _filters.clear();
+    _filteredListOfStudents.clear();
+    selectedIndexes.clear();
   }
 }
 
