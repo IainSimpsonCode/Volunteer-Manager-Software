@@ -166,22 +166,6 @@ class _MainAppState extends State<MainApp> {
 
                   // Spacer
                   const SizedBox(width: 25),
-
-                  // TODO: make the addRepPage
-                  // Navigation button to open the addRepPage
-                  IconButton(
-                    icon: const Icon(Icons.group_add),
-                    iconSize: topBarHeight * topBarIconScaleFactor,
-                    onPressed: () {
-                      setState(() {
-                        Provider.of<PageNotifier>(context, listen: false)
-                            .setDisplay(StudentList());
-                      });
-                    },
-                  ),
-
-                  // Spacer
-                  const SizedBox(width: 25),
                   
                   IconButton(
                     icon: const Icon(Icons.folder),
@@ -232,19 +216,11 @@ class _MainAppState extends State<MainApp> {
 
                   // Clear cache button (Debug use)
                   IconButton(
-                    icon: const Icon(Icons.clear),
+                    icon: const Text("Clear Cache"),
                     iconSize: topBarHeight * topBarIconScaleFactor,
                     onPressed: () {
                       prefs.setString("Data Source", '');
                     },
-                  ),
-
-                  // Spacer
-                  const SizedBox(width: 25),
-
-                  // Debuf info. Displays the page width
-                  Text(
-                    MediaQuery.sizeOf(context).width.toString(),
                   ),
                 ],
               ),
