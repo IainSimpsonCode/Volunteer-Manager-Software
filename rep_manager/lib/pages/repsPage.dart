@@ -1,691 +1,127 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rep_manager/components/Rep%20Page/FocusBox.dart';
+import 'package:rep_manager/pages/import.dart';
 import "package:rep_manager/themes/theme.dart";
 
-const sampleData = [
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-  ["Iain Simpson", "BSc Software Engineering", "2nd"],
-  ["Steph Lomas", "LLB Law", "Fdn"],
-  ["Becky Best", "LLB Law", "2nd"],
-  ["Krupa Raithatha", "BA Events Management", "3rd"],
-  ["Hannah Mason", "BA Communication", "2nd"],
-  ["Daisy Muir", "BA Fine Art", "2nd"],
-  ["Ian Blease", "BA Managemet", "1st"],
-  ["Liam Middleton", "BSc Web Development", "3rd"],
-];
+class FocusBoxNotifier extends ChangeNotifier {
+  // The focused student is the student displayed with extra information at the bottom of the repPage. 
+  // When a rep is clicked on repPage, they become focused and have extra information show up
 
-const groups = [
-  [
-    ["Course Reps"],
-    [
-      "Arts and Media",
-      "Business",
-      "Engineering and Computing",
-      "Pharmacy and Biomedical Sciences",
-      "Veterinary Medicine",
-      "Law and Policing",
-      "Psychology, Humanities and Languages",
-      "Nursing and Midwifery",
-      "Medicine and Dentistry",
-      "Health, Social Work and Sport"
-    ],
-  ],
-  [
-    ["Senior Representatives"],
-    [
-      "School Presidents",
-      "Satellite Campus Reps",
-      "School Council",
-    ],
-  ],
-  [
-    ["Libaeration Reps"],
-    ["Liberation Reps"],
-  ]
-];
+  // The index in the main studentData list of the currently selected rep
+  int _focusedIndex = 0;
+  // Can the current student be editted
+  bool _focusEdit = false;
+  // Should the focusBox be vidible at the bottom of the screen?
+  bool _focusSelected = false;
+
+  // Getters
+  int get focusedIndex => _focusedIndex;
+  bool get focusEdit => _focusEdit;
+  bool get focusSelected => _focusSelected;
+
+  // Setters
+  void updateFocusedIndex(int newValue) {
+    _focusedIndex = newValue;
+    notifyListeners();
+  }
+
+  void updateFocusEdit(bool newValue) {
+    _focusEdit = newValue;
+    notifyListeners();
+  }
+
+  void updateFocusSelected(bool newValue) {
+    _focusSelected = newValue;
+    notifyListeners();
+  }
+
+  void clearFocusBox() {
+    _focusSelected = false;
+    _focusEdit = false;
+    _focusedIndex = 0;
+  }
+}
+
+class FilterInfoNotifier extends ChangeNotifier {
+  // A list of all currently enabled filters applied to the students displayed on repPage. Filters are treated as 1 filter OR another, rather than 1 filter AND another
+  List<String> _filters = [];
+  // The list of students who fit 1 or more of the applied filters
+  List<Student> _filteredListOfStudents = [];
+  // The index in the list of all studentData of which students have been selected using the small circle on the left of thier name.
+  List<int> selectedIndexes = [];
+
+  // Getters
+  List<String> get filters => _filters;
+  List<Student> get filteredListOfStudents => _filteredListOfStudents;
+
+  // Setters
+  void toggleFilter(BuildContext context, String filter) {
+
+    if (_filters.contains(filter)) {
+      _filters.remove(filter);
+    } else {
+      _filters.add(filter);
+    }
+
+    _filteredListOfStudents.clear();
+
+    if (_filters.isEmpty) {
+      _filteredListOfStudents = List.from(Provider.of<DataNotifier>(context, listen: false).studentData);
+    } else {
+      for (Student student in Provider.of<DataNotifier>(context, listen: false).studentData) {
+        for (String label in student.labels) {
+          if (_filters.contains(label)) {
+            _filteredListOfStudents.add(student);
+          }
+        }
+      }
+    }
+
+    notifyListeners();
+  }
+
+  void setFilter(String filter) {
+    if (!_filters.contains(filter)) {
+      _filters.add(filter);
+    }
+  }
+
+  void initialiseFilteredListOfStudents(List<Student> newValue) {
+    _filteredListOfStudents = newValue;
+  }
+
+  void setFilteredListOfStudents(List<Student> newValue) {
+    _filteredListOfStudents = newValue;
+    notifyListeners();
+  }
+
+  void autosetFilteredListOfStudents(BuildContext context) {
+    _filteredListOfStudents.clear();
+
+    if (_filters.isEmpty) {     
+      _filteredListOfStudents = List.from(Provider.of<DataNotifier>(context, listen: false).studentData);
+    } else {
+      for (Student student in Provider.of<DataNotifier>(context, listen: false).studentData) {
+        for (String label in student.labels) {
+          if (_filters.contains(label)) {
+            _filteredListOfStudents.add(student);
+          }
+        }
+      }
+    }
+  }
+
+  void clearFilters() {
+    _filters.clear();
+    _filteredListOfStudents.clear();
+    selectedIndexes.clear();
+  }
+}
 
 //ignore: must_be_immutable
 class repPage extends StatefulWidget {
-  repPage({Key? key}) : super(key: key);
-
-  List<int> selectedIndexes = [];
-  List<String> filters = [];
-  
-  bool focusSelected = false;
-  int focusedIndex = 0;
-  bool focusEdit = false;
-
-  bool? checkedValue = false;
+  const repPage({Key? key}) : super(key: key);
 
   @override
   State<repPage> createState() => _repPageState();
@@ -694,12 +130,35 @@ class repPage extends StatefulWidget {
 class _repPageState extends State<repPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
+    Provider.of<DataNotifier>(context, listen: false).addListener(_onCSVNotifierChange);
+    Provider.of<FilterInfoNotifier>(context, listen: false).addListener(_onFilterNotifierChange);
+  }
+
+  void _onCSVNotifierChange() {
+    // Call setState to rebuild the widget when notifier changes
+    print("Resetting Rep Page");
+
+    // Provider.of<FilterInfoNotifier>(context, listen: false).filters.clear();
+    // Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents.clear();
+    // Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.clear();
+
+    // Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusSelected(false);
+    // Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusedIndex(0);
+    // Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusEdit(false);
+  }
+
+  void _onFilterNotifierChange() {
+    // setState(() {
+      
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    Provider.of<FilterInfoNotifier>(context).autosetFilteredListOfStudents(context);
 
     Icon addNewRepIcon = const Icon(Icons.add, color: textColor,);
     Icon editRepDetailsIcon = const Icon(Icons.edit, color: textColor,);
@@ -707,8 +166,12 @@ class _repPageState extends State<repPage> {
     Icon downloadRepInformationIcon = const Icon(Icons.download);
     Icon deleteRepIcon = const Icon(Icons.delete);
 
+    if (Provider.of<FilterInfoNotifier>(context, listen: false).filters.isEmpty) {
+      Provider.of<FilterInfoNotifier>(context, listen: false).initialiseFilteredListOfStudents(List.from(Provider.of<DataNotifier>(context, listen: false).studentData));
+    }
+
     List<Widget> filterCheckboxes = [const SizedBox(height: 10,)];
-    for (List<List<String>> group in groups) {
+    for (List<List<String>> group in Provider.of<DataNotifier>(context, listen: false).groups) {
       filterCheckboxes.add(Row(
         children: [
           const SizedBox(width: 20,),
@@ -717,7 +180,7 @@ class _repPageState extends State<repPage> {
       ));
       for (String filterItem in group[1]) {
         bool startValue = false;
-        if (widget.filters.contains(filterItem)) {
+        if (Provider.of<FilterInfoNotifier>(context, listen: false).filters.contains(filterItem)) {
           startValue = true;
         }
 
@@ -729,23 +192,17 @@ class _repPageState extends State<repPage> {
           ),
           value: startValue,
           onChanged: (newValue) {
-            if (widget.filters.contains(filterItem)) {
-              setState(() {
-                widget.filters.remove(filterItem);
-              });
-            } else {
-              setState(() {
-                widget.filters.add(filterItem);
-              });
-            }
+            setState(() {
+              Provider.of<FilterInfoNotifier>(context, listen: false).toggleFilter(context, filterItem);
+            });
           },
           controlAffinity:
-              ListTileControlAffinity.leading, //  <-- leading Checkbox
+            ListTileControlAffinity.leading, //  <-- leading Checkbox
         ));               
       }
     }
 
-    if (widget.selectedIndexes.length > 1) {
+    if (Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.length > 1) {
       editRepDetailsIcon = const Icon(
         Icons.edit,
         color: Color.fromARGB(100, 0, 0, 0),
@@ -758,160 +215,25 @@ class _repPageState extends State<repPage> {
       );
     }
 
-    int focusBoxHeight = 0;
-    Container focusBox = Container(height: 0);
+    double focusBoxHeight = 0;
+    Widget focusBox = Container(height: 0);
 
-    List<Widget> staticInformation = [
-      Text("G21002528", style: paragraph,),
-      Text("isimpson3@uclan.ac.uk", style: paragraph,),
-      Text("FT", style: paragraph,),
-      Text("Preston", style: paragraph,),
-      Text("UG", style: paragraph,),
-      Text("1/7/24", style: paragraph,),
-      Text("1/7/25", style: paragraph,),
-    ];
-    List<Widget> editableInformation = [
-      TextField(
-        controller: TextEditingController()..text = 'G21002528',
-        onChanged: (text) => {},
-      ),
-      TextField(
-        controller: TextEditingController()..text = 'isimpson3@uclan.ac.uk',
-        onChanged: (text) => {},
-      ),
-      TextField(
-        controller: TextEditingController()..text = 'FT',
-        onChanged: (text) => {},
-      ),
-      TextField(
-        controller: TextEditingController()..text = 'Preston',
-        onChanged: (text) => {},
-      ),
-      TextField(
-        controller: TextEditingController()..text = 'UG',
-        onChanged: (text) => {},
-      ),
-      TextField(
-        controller: TextEditingController()..text = '1/7/24',
-        onChanged: (text) => {},
-      ),
-      TextField(
-        controller: TextEditingController()..text = '1/7/25',
-        onChanged: (text) => {},
-      ),
-    ];
-
-    List<Widget> focusBoxInformation = staticInformation;
-    if (widget.focusEdit) {
-      focusBoxInformation = editableInformation;
-    }
-
-    if (widget.focusSelected) {
+    if (Provider.of<FocusBoxNotifier>(context).focusSelected) {
       focusBoxHeight = 350;
-      focusBox = Container(
-        height: 350,
-        width: MediaQuery.sizeOf(context).width - 400,
-        decoration: const BoxDecoration(
-          color: bodyColor,
-          border: Border(
-            top: BorderSide(width: 1, color: Colors.black),
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 10),
-            Row(children: [
-              const SizedBox(width: 10,),              
-              GestureDetector(
-                child: const Icon(Icons.close, size: 15,),
-                onTap: () {
-                  setState(() {
-                    widget.focusSelected = false;
-                  });
-                },
-              )
-            ],),
-            const SizedBox(height: 15,),
-            Row(children: [
-              const SizedBox(width: 35),
-            
-            
-              // Rep Information
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //const SizedBox(height: 35),
-                  Text(sampleData[widget.focusedIndex][0], style: h3,),
-                  Text(sampleData[widget.focusedIndex][1], style: paragraph,),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text("G Number:", style: paragraph,),
-                          Text("Email:", style: paragraph,),
-                          Text("Mode:", style: paragraph,),
-                          Text("Campus:", style: paragraph,),
-                          Text("Level:", style: paragraph,),
-                          Text("Start Date:", style: paragraph,),
-                          Text("End Date:", style: paragraph,),
-                        ],
-                      ),
-                      const SizedBox(width: 10,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: focusBoxInformation
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20,),
-                  Row(children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                      ), 
-                      onPressed: () {
-            
-                      }, 
-                      child: const Row(children: [ Icon(Icons.email), SizedBox(width: 10,), Text("Email") ])
-                    ),
-                    const SizedBox(width: 20,),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.red,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                      ),
-                      onPressed: () {},
-                      child: const Row(children: [Icon(Icons.delete), SizedBox(width: 5,), Text("Delete")]))
-                  ],)
-                ],
-              )
-            ]),
-          ],
-        ),
-      );
+      focusBox = FocusBox(focusRepIndex: Provider.of<FocusBoxNotifier>(context, listen: false).focusedIndex, focusBoxHeight: focusBoxHeight);
     }
 
     String selectAllText = "Select All";
     Icon selectAllIcon = Icon(Icons.circle_outlined);
-    if (widget.selectedIndexes.isNotEmpty) {
-      selectAllText = "${widget.selectedIndexes.length} Selected";
+    if (Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.isNotEmpty) {
+      selectAllText = "${Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.length} Selected";
       selectAllIcon = const Icon(Icons.circle, color: primaryColor,);
     }
 
     return Row(children: [
       //Side Bar
       Container(
-        width: 400,
+        width: sideBarWidth,
         height: MediaQuery.sizeOf(context).height - 50,
         decoration: BoxDecoration(
           color: secondaryColor,
@@ -923,7 +245,7 @@ class _repPageState extends State<repPage> {
       //Content
       Column( children: [
         Container(
-          width: MediaQuery.sizeOf(context).width - 400,
+          width: MediaQuery.sizeOf(context).width - sideBarWidth,
           height: 50,
           color: secondaryColor,
           child: Row(
@@ -939,13 +261,13 @@ class _repPageState extends State<repPage> {
               GestureDetector(
                   child: editRepDetailsIcon,
                   onTap: () {
-                    if (widget.selectedIndexes.length > 1)
+                    if (Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.length > 1)
                     {
                       // Do nothing if more than 1 person is selected
                     }
                     else {
                       setState(() {
-                        widget.focusEdit = !widget.focusEdit;
+                        Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusEdit(!Provider.of<FocusBoxNotifier>(context, listen: false).focusEdit);
                       });
                     }
                   },
@@ -969,16 +291,18 @@ class _repPageState extends State<repPage> {
               GestureDetector(
                 child: selectAllIcon,
                 onTap: () {
-                  if (widget.selectedIndexes.isEmpty) {
+                  if (Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.isEmpty) {
                     setState(() {
-                      for (int i = 0; i < sampleData.length; i++) {
-                        widget.selectedIndexes.add(i);
+                      for (int i = 0; i < Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents.length; i++) {
+                        Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.add(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[i]));
+
+                        //selectedIndexes.add(i);
                       }
                     });
                   }
                   else {
                     setState(() {
-                      widget.selectedIndexes.clear();
+                      Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.clear();
                     });
                   }
                 },
@@ -990,36 +314,53 @@ class _repPageState extends State<repPage> {
           ),
         ),
         Container(
-          width: MediaQuery.sizeOf(context).width - 400,
-          height: MediaQuery.sizeOf(context).height - (100 + focusBoxHeight),
+          width: MediaQuery.sizeOf(context).width - sideBarWidth,
+          height: 50,
+          child: Row(children: [
+            const SizedBox(width: 53,),
+            Text("Name", style: paragraph,),
+            const Expanded(child: SizedBox()),
+            Text("Course", style: paragraph,),
+            const SizedBox(width: 7,),
+            const Divider(height: 1, thickness: 10, indent: 0, color: Colors.black,),
+            const SizedBox(width: 8,),
+            SizedBox(
+              width: 40,
+              child: Text("Year", style: paragraph,),
+            ),
+            const SizedBox(width: 30,),
+          ]),
+        ),
+        Container(
+          width: MediaQuery.sizeOf(context).width - sideBarWidth,
+          height: MediaQuery.sizeOf(context).height - (150 + focusBoxHeight),
           child: ListView.builder(
-            itemCount: sampleData.length,
+            itemCount: Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents.length,
             itemBuilder: (BuildContext context, int index) {
 
               Icon circleIcon = const Icon(Icons.circle_outlined, color: textColor,);
-              if (widget.selectedIndexes.contains(index)) { circleIcon = Icon(Icons.circle, color: primaryColor,); }
-
+              if (Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.contains(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index]))) { circleIcon = Icon(Icons.circle, color: primaryColor,); }
               return ListTile(
                 leading: GestureDetector(
                   child: circleIcon,
                   onTap: () {
-                    if (widget.selectedIndexes.contains(index)) {
+                    if (Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.contains(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index]))) {
                       setState(() {
-                        widget.selectedIndexes.remove(index);
+                        Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.remove(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index]));
                       });
                     } else {
                       setState(() {
-                        widget.selectedIndexes.add(index);
+                        Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.add(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index]));
                       });
                     }
                   },
                 ),
-                title: Text(sampleData[index][0], style: paragraph, maxLines: 2, softWrap: false,),
+                title: Text('${Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index].firstName} ${Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index].lastName}', style: paragraph, maxLines: 2, softWrap: false,),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      sampleData[index][1],
+                      Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index].course,
                       style: paragraph,
                       maxLines: 2,
                       softWrap: true, 
@@ -1029,7 +370,7 @@ class _repPageState extends State<repPage> {
                       width: 40,
                       height: 20,
                       child: Text(
-                        sampleData[index][2],
+                        Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index].year,
                         style: paragraph,
                       ),
                     )
@@ -1041,8 +382,8 @@ class _repPageState extends State<repPage> {
                 ), 
                 onTap: () {
                   setState(() {
-                    widget.focusSelected = true;
-                    widget.focusedIndex = index;
+                    Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusSelected(true);
+                    Provider.of<FocusBoxNotifier>(context, listen: false).updateFocusedIndex(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index]));
                   });
                 },                
               );

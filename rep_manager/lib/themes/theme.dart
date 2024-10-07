@@ -40,6 +40,17 @@ TextStyle h3 = GoogleFonts.poppins(
   ),
 );
 
+// Definitions of the pixel widths of different screen sizes. Eg, a compactScreen is a screen <=650 pixels wide
 const compactScreenSize = 650;
 const mediumScreenSize = 840;
+const reducedScreenSize = 1200;
+
+// The size of the icons on the topBar compared to the height of the topBar
+const double topBarIconScaleFactor = 0.7;
+// The height of the main top bar
+const double topBarHeight = 50;
+
+// The width of the sideBar on the repPage
+const double sideBarWidth = 400;
+
 
