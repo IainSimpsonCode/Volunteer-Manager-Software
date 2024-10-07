@@ -53,3 +53,4 @@ const double topBarHeight = 50;
 // The width of the sideBar on the repPage
 const double sideBarWidth = 400;
 
+

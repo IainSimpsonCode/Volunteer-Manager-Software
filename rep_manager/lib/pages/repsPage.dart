@@ -340,7 +340,6 @@ class _repPageState extends State<repPage> {
 
               Icon circleIcon = const Icon(Icons.circle_outlined, color: textColor,);
               if (Provider.of<FilterInfoNotifier>(context, listen: false).selectedIndexes.contains(Provider.of<DataNotifier>(context, listen: false).studentData.indexOf(Provider.of<FilterInfoNotifier>(context, listen: false).filteredListOfStudents[index]))) { circleIcon = Icon(Icons.circle, color: primaryColor,); }
-
               return ListTile(
                 leading: GestureDetector(
                   child: circleIcon,
