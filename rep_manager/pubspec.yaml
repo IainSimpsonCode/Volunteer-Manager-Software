@@ -24,6 +24,19 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  msix: ^3.16.8
 
 flutter:
   uses-material-design: true
+
+msix_config:
+  display_name: Volunteer Manager
+  publisher_display_name: IainSimpsonCode
+  identity_name: IainSimpsonCode.VolunteerManager
+  publisher: CN=C841BA9E-64D4-487A-8020-E2D08D86888E
+  languages: en-gb
+  msix_version: 0.1.0.0
+  logo_path: C:\Users\Iain Simpson\Desktop\Volunteer-Manager-Software\rep_manager\assets\logo.png
+  capabilities: internetClient, Documents
+  certificate_path: C:\Program Files\OpenSSL-Win64\bin\CERTIFICATE.pfx
+  certificate_password: test
